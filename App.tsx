@@ -15,7 +15,7 @@ import {Formik} from 'formik';
 const passwordId = Yup.object().shape({
   passwordLength: Yup.number()
     .min(4, 'Should be at least 4 characters')
-    .max(12, 'Should be at least 4 characters')
+    .max(16, 'Should be at most 16 characters')
     .required('Please provide the password length'),
 });
 
@@ -128,44 +128,62 @@ export default function App() {
                     <BouncyCheckbox
                       isChecked={upperCase}
                       onPress={() => setUpperCase(!upperCase)}
-                      fillColor="#28a745"
+                      fillColor="#FFC107"
                     />
                   </View>
                 </View>
                 <View style={styles.inputWrapper}>
-                  <Text style={styles.heading}>Include Lowercase</Text>
+                  <Text style={styles.heading}>Include Numbers</Text>
                   <View>
                     <BouncyCheckbox
                       isChecked={numbers}
                       onPress={() => setNumbers(!numbers)}
-                      fillColor="#28a745"
+                      fillColor="#C70039"
                     />
                   </View>
                 </View>
 
                 <View style={styles.inputWrapper}>
-                  <Text style={styles.heading}>Include Lowercase</Text>
+                  <Text style={styles.heading}>Include symbols</Text>
                   <View>
                     <BouncyCheckbox
                       isChecked={symbols}
                       onPress={() => setSymbols(!symbols)}
-                      fillColor="#28a745"
+                      fillColor="#3498DB"
                     />
                   </View>
                 </View>
 
                 <View style={styles.formActions}>
-                  <TouchableOpacity>
-                    <Text>Generate Password</Text>
+                  <TouchableOpacity
+                    disabled={!isValid}
+                    style={styles.primaryBtn}
+                    onPress={() => {
+                      handleSubmit();
+                    }}>
+                    <Text style={styles.primaryBtnTxt}>Generate</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Text>Reset</Text>
+
+                  <TouchableOpacity
+                    style={styles.secondaryBtn}
+                    onPress={() => {
+                      handleReset();
+                      resetPasswordState ();
+                    }}>
+                    <Text style={styles.secondaryBtnTxt}>Reset</Text>
                   </TouchableOpacity>
                 </View>
               </>
             )}
           </Formik>
         </View>
+        {isPassGenerated?(
+          <View style={[styles.card,styles.cardElevated]}>
+            <Text style={styles.subTitle}>Result:</Text>
+            <Text style={styles.description}>Long press to copy</Text>
+            <Text style={styles.generatedPassword}>{password}</Text>
+            </View>
+        ): null }
       </SafeAreaView>
     </ScrollView>
   );
@@ -180,9 +198,10 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   title: {
+    textAlign : "center" ,
     fontSize: 32,
-    fontWeight: '600',
-    marginBottom: 15,
+    fontWeight: '700',
+    marginBottom: 30,
   },
   subTitle: {
     fontSize: 26,
@@ -194,11 +213,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   heading: {
-    fontSize: 15,
+    fontSize: 18,
+    fontWeight : "bold"
   },
   inputWrapper: {
     gap: 20,
-    marginBottom: 15,
+    marginBottom: 25,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -219,35 +239,46 @@ const styles = StyleSheet.create({
     color: '#ff0d10',
   },
   formActions: {
+    // marginTop : 5 ,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   primaryBtn: {
     width: 120,
-    padding: 10,
+    padding: 15,
     borderRadius: 8,
     marginHorizontal: 8,
-    backgroundColor: '#5DA3FA',
+    backgroundColor: '#F5F5DC',
+    elevation: 1,
   },
   primaryBtnTxt: {
-    color: '#fff',
+    fontSize : 18 ,
+    color: '#000000',
     textAlign: 'center',
     fontWeight: '700',
+    marginVertical: 'auto',
   },
   secondaryBtn: {
     width: 120,
-    padding: 10,
+    padding: 15,
     borderRadius: 8,
     marginHorizontal: 8,
-    backgroundColor: '#CAD5E2',
+    backgroundColor: '#D9EAF7',
+    elevation: 1,
   },
   secondaryBtnTxt: {
+    fontSize : 18 ,
+    color: '#000000',
     textAlign: 'center',
+    marginVertical: 'auto',
+    fontWeight: '700',
   },
   card: {
-    padding: 12,
-    borderRadius: 6,
-    marginHorizontal: 12,
+    paddingHorizontal : 14 ,
+    paddingVertical: 8,
+    borderRadius: 10,
+    marginHorizontal: 14,
+    elevation : 5 ,
   },
   cardElevated: {
     backgroundColor: '#ffffff',
