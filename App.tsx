@@ -97,7 +97,7 @@ export default function App() {
               <>
                 <View style={styles.inputWrapper}>
                   <View style={styles.inputColumn}>
-                    <Text style={styles.heading}>Password Length</Text>
+                    <Text style={styles.heading}>Enter password Length</Text>
                     {touched.passwordLength && errors.passwordLength && (
                       <Text style={styles.errorText}>
                         {errors.passwordLength}
@@ -228,11 +228,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   inputStyle: {
-    padding: 8,
+    padding: 10,
     width: '30%',
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 4,
     borderColor: '#16213e',
+    fontSize : 16 ,
   },
   errorText: {
     fontSize: 12,
